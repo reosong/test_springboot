@@ -1,8 +1,9 @@
 package hello.servlet.web.frontcontroller.v2;
 
-import hello.servlet.web.frontcontroller.v1.controller.MemberFormControllerV2;
-import hello.servlet.web.frontcontroller.v1.controller.MemberSaveControllerV2;
+import hello.servlet.web.frontcontroller.MyView;
+import hello.servlet.web.frontcontroller.v2.controller.MemberFormControllerV2;
 import hello.servlet.web.frontcontroller.v2.controller.MemberListControllerV2;
+import hello.servlet.web.frontcontroller.v2.controller.MemberSaveControllerV2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +30,6 @@ public class FrontControllerServletV2 extends HttpServlet{
 
         @Override
         protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            System.out.println("FrontControllerServletV1.service");
             String requestURI = request.getRequestURI();
 
             ControllerV2 controller = controllerMap.get(requestURI);
@@ -37,8 +37,8 @@ public class FrontControllerServletV2 extends HttpServlet{
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
-            controller.process(request, response);
-
+            MyView view =controller.process(request, response);
+            view.render(request, response);
 
         }
 
